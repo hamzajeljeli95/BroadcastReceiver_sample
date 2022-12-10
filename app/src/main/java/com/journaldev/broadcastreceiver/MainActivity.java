@@ -3,11 +3,10 @@ package com.journaldev.broadcastreceiver;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity {
     ConnectionReceiver receiver;
@@ -17,9 +16,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ButterKnife.inject(this);
         receiver = new ConnectionReceiver();
         intentFilter = new IntentFilter("com.journaldev.broadcastreceiver.SOME_ACTION");
+        Button b = findViewById(R.id.button);
+        b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                someMethod();
+            }
+        });
     }
 
     @Override
@@ -34,7 +39,6 @@ public class MainActivity extends AppCompatActivity {
         unregisterReceiver(receiver);
     }
 
-    @OnClick(R.id.button)
     void someMethod() {
         Intent intent = new Intent("com.journaldev.broadcastreceiver.SOME_ACTION");
         sendBroadcast(intent);
